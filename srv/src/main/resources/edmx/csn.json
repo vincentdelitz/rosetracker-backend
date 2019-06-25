@@ -1,0 +1,113 @@
+{
+  "namespace": "leonardo",
+  "definitions": {
+    "CatalogService": {
+      "kind": "service",
+      "@source": "srv/my-service.cds"
+    },
+    "CatalogService.Package": {
+      "kind": "entity",
+      "@cds.persistence.name": "CATALOGSERVICE_PACKAGE",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "blockchain.Package"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "PackageID": {
+          "@cds.persistence.name": "PACKAGEID",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "owner": {
+          "@cds.persistence.name": "OWNER",
+          "type": "cds.String"
+        },
+        "location": {
+          "@cds.persistence.name": "LOCATION",
+          "type": "cds.String"
+        }
+      },
+      "$syntax": "projection"
+    },
+    "CatalogService.Products": {
+      "kind": "entity",
+      "@cds.persistence.name": "CATALOGSERVICE_PRODUCTS",
+      "query": {
+        "SELECT": {
+          "from": {
+            "ref": [
+              "leonardo.Products"
+            ]
+          }
+        }
+      },
+      "elements": {
+        "ProductID": {
+          "@cds.persistence.name": "PRODUCTID",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "ProductName": {
+          "@cds.persistence.name": "PRODUCTNAME",
+          "type": "cds.String"
+        },
+        "UnitsInStock": {
+          "@cds.persistence.name": "UNITSINSTOCK",
+          "type": "cds.Integer"
+        }
+      },
+      "$syntax": "projection"
+    },
+    "blockchain.Package": {
+      "kind": "entity",
+      "@cds.persistence.name": "BLOCKCHAIN_PACKAGE",
+      "elements": {
+        "PackageID": {
+          "@cds.persistence.name": "PACKAGEID",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "owner": {
+          "@cds.persistence.name": "OWNER",
+          "type": "cds.String"
+        },
+        "location": {
+          "@cds.persistence.name": "LOCATION",
+          "type": "cds.String"
+        }
+      }
+    },
+    "leonardo.Products": {
+      "kind": "entity",
+      "@cds.persistence.name": "LEONARDO_PRODUCTS",
+      "elements": {
+        "ProductID": {
+          "@cds.persistence.name": "PRODUCTID",
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "ProductName": {
+          "@cds.persistence.name": "PRODUCTNAME",
+          "type": "cds.String"
+        },
+        "UnitsInStock": {
+          "@cds.persistence.name": "UNITSINSTOCK",
+          "type": "cds.Integer"
+        }
+      }
+    }
+  },
+  "version": {
+    "csn": "1.0"
+  },
+  "meta": {
+    "creator": "CDS Compiler v1.13.4"
+  },
+  "$version": "1.0",
+  "@sql_mapping": "plain"
+}

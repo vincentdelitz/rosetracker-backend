@@ -1,0 +1,53 @@
+_schema-version: 2.0.0
+ID: trackerrose
+version: 1.0.0
+modules:
+  - name: trackerrose-db
+    type: hdb
+    path: db
+    parameters:
+      memory: 256M
+      disk-quota: 256M
+    requires:
+      - name: trackerrose-db-hdi-container
+  - name: trackerrose-srv
+    type: java
+    path: srv
+    parameters:
+      memory: 1024M
+    provides:
+      - name: srv_api
+        properties:
+          url: '${default-url}'
+    requires:
+      - name: trackerrose-db-hdi-container
+        properties:
+          JBP_CONFIG_RESOURCE_CONFIGURATION: '[tomcat/webapps/ROOT/META-INF/context.xml: {"service_name_for_DefaultDB" : "~{hdi-container-name}"}]'
+
+  - name: servlet
+    type: java
+    path: servlet
+    parameters:
+       memory: 512M
+    provides:
+     - name: servlet_api
+       properties:
+          url: ${default-url}
+    requires:
+     - name: trackerrose-db-hdi-container
+       properties:
+          JBP_CONFIG_RESOURCE_CONFIGURATION: '[tomcat/webapps/ROOT/META-INF/context.xml:
+             {"service_name_for_DefaultDB" : "~{hdi-container-name}"}]'
+
+resources:
+  - name: trackerrose-db-hdi-container
+    type: com.sap.xs.hdi-container
+    properties:
+      hdi-container-name: '${service-name}'
+  - name: proofOfHistory
+    parameters:
+      service-name: SAP Node
+      service: blockchain-services
+      service-plan: blockchain-proof-of-history
+    type: org.cloudfoundry.existing-service
+  
